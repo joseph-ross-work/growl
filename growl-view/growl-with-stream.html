@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    </head>
+    <body>
+        
+        <div id="auth-button"></div>
+        <div id="view"></div>
+        <div id="raw-message"></div>
+        <button id="show-button" type="button">Show Message</button>
+
+        <script src="../../lib/cajon/cajon.js" type="text/javascript"></script>
+        <script src="../../requirejs.conf.js" type="text/javascript"></script>
+        <script>
+            requirejs({
+                baseUrl: "/"
+            });
+        </script>
+        <script>
+            require([
+                'personalized-stream-counter',            
+                'auth/contrib/auth-button',
+                'livefyre-auth/livefyre-auth-delegate',
+                'livefyre-auth',
+                'auth'
+            ],function (psc, createAuthButton, livefyreAuthDelegate, authLivefyre, auth) {
+                var authButton = createAuthButton(auth, document.getElementById('auth-button'));
+                authLivefyre.plugin(auth, 'uat.livefyre.com');
+                var delegate = window.delegate = livefyreAuthDelegate('http://www.livefyre.com');
+                auth.delegate(delegate);
+
+                var streamClient = new psc.PersonalizedStreamClient();
+                var growlView = new psc.GrowlView({
+                    el: document.getElementById('view')
+                });
+
+                var rawMsg = document.getElementById('raw-message');
+                window.addEventListener('message', function(event){
+                    rawMsg.innerHtml = JSON.stringify(event.data);
+                }, false);
+            });
+        </script>
+    </body>
+</html>

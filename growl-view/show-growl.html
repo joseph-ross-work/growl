@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html class="">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+        <style>
+            #view {
+
+            }
+        </style>
+        <script src="http://cdn.livefyre.com/Livefyre.js"></script>
+    <body>
+        
+        <div id="view">
+        </div>
+        <button id="show-button" type="button">Show Message</button>
+
+        <!-- <script src="../../lib/cajon/cajon.js" type="text/javascript"></script>
+        <script src="../../requirejs.conf.js" type="text/javascript"></script>
+        <script>
+            requirejs({
+                baseUrl: "/"
+            });
+        </script>-->
+        <script>
+            Livefyre.require([
+                'personalized-stream-counter#0.1.0'
+            ],function (psc) {
+                var counter = new psc.GrowlView({
+                    el: document.getElementById('view')
+                });
+
+                var btn = document.getElementById('show-button');
+                btn.onclick = function(){
+                    var msg = {
+                        channel: 'personalized-stream',
+                        topic: 'content',
+                        action: 'UPDATE',
+                        data: {
+                            verb: 'post',
+                            'object': {
+                                title: "Find Out What This Guy Knows That The Government Doesn't Want You To Hear!",
+                                'tags': [ { "displayName": "spam" } ]
+                            }
+                        }
+                    };
+                    window.postMessage(JSON.stringify(msg), '*');
+                };
+            });
+        </script>
+    </body>
+</html>

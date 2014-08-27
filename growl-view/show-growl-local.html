@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html class="">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+        <style>
+            #view {
+
+            }
+        </style>
+    <body>
+        
+        <div id="view">
+        </div>
+        <button id="show-button" type="button">Show Message</button>
+
+        <script src="../../lib/cajon/cajon.js" type="text/javascript"></script>
+        <script src="../../requirejs.conf.js" type="text/javascript"></script>
+        <script>
+            requirejs({
+                baseUrl: "/"
+            });
+        </script>
+        <script>
+           require([
+                'personalized-stream-counter'
+            ],function (psc) {
+                var counter = new psc.GrowlView({
+                    el: document.getElementById('view')
+                });
+
+                var j = 0;
+                var btn = document.getElementById('show-button');
+                btn.onclick = function(){
+                    var msg = {
+                        channel: 'personalized-stream',
+                        topic: 'content',
+                        action: 'UPDATE',
+                        data: {
+                            verb: 'post',
+                            'object': {
+                                title: 'test',//j++,
+                                'tags': [ { "displayName": "spam" } ]
+                            }
+                        }
+                    };
+                    window.postMessage(JSON.stringify(msg), '*');
+                };
+            });
+        </script>
+    </body>
+</html>
