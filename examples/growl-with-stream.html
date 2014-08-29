@@ -19,19 +19,20 @@
         </script>
         <script>
             require([
-                'personalized-stream-counter',            
+                'growl',            
                 'auth/contrib/auth-button',
                 'livefyre-auth/livefyre-auth-delegate',
                 'livefyre-auth',
                 'auth'
-            ],function (psc, createAuthButton, livefyreAuthDelegate, authLivefyre, auth) {
+            ],function (growl, createAuthButton, livefyreAuthDelegate, authLivefyre, auth) {
                 var authButton = createAuthButton(auth, document.getElementById('auth-button'));
-                authLivefyre.plugin(auth, 'uat.livefyre.com');
                 var delegate = window.delegate = livefyreAuthDelegate('http://www.livefyre.com');
                 auth.delegate(delegate);
 
-                var streamClient = new psc.PersonalizedStreamClient();
-                var growlView = new psc.GrowlView({
+                var streamClient = new growl.PersonalizedStreamClient({
+                        environment: 'uat'
+                    });
+                var growlView = new growl({
                     el: document.getElementById('view')
                 });
 

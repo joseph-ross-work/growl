@@ -22,9 +22,9 @@
         </script>
         <script>
            require([
-                'personalized-stream-counter'
-            ],function (psc) {
-                var counter = new psc.GrowlView({
+                'growl'
+            ],function (growl) {
+                var growl = new growl({
                     el: document.getElementById('view')
                 });
 

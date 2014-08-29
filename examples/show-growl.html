@@ -14,18 +14,11 @@
         </div>
         <button id="show-button" type="button">Show Message</button>
 
-        <!-- <script src="../../lib/cajon/cajon.js" type="text/javascript"></script>
-        <script src="../../requirejs.conf.js" type="text/javascript"></script>
-        <script>
-            requirejs({
-                baseUrl: "/"
-            });
-        </script>-->
         <script>
             Livefyre.require([
-                'personalized-stream-counter#0.1.0'
-            ],function (psc) {
-                var counter = new psc.GrowlView({
+                'growl#0.0.0'
+            ],function (growl) {
+                var growl = new growl({
                     el: document.getElementById('view')
                 });
 

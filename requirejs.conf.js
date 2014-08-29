@@ -16,7 +16,7 @@ require.config({
     'events-event-emitter': 'lib/events-event-emitter/src/event-emitter'
   },
   packages: [{
-    name: "personalized-stream-counter",
+    name: "growl",
     location: "src",
     main: "main"
   },{
@@ -54,14 +54,14 @@ require.config({
     main: "extend"
   }],
   css: {
-    clearFileEachBuild: 'dist/personalized-stream-counter.min.css',
+    clearFileEachBuild: 'dist/growl.min.css',
     transformEach: {
       requirejs: 'lib/livefyre-package-attribute/tools/prefix-css-requirejs',
       node: 'lib/livefyre-package-attribute/tools/prefix-css-node'
     }
   },
   less: {
-    browserLoad: 'dist/personalized-stream-counter.min',
+    browserLoad: 'dist/growl.min',
     modifyVars: {
       '@icon-font-path': "\"http://cdn.livefyre.com/libs/livefyre-bootstrap/v1.3.1/fonts/\""
     },

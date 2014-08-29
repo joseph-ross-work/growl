@@ -6,7 +6,7 @@
     'auth/contrib': 'lib/auth/src/contrib'
   },
   baseUrl: '..',
-  name: 'personalized-stream-counter',
+  name: 'growl',
   include: [
     'almond',
     'css'
@@ -15,7 +15,7 @@
   buildCSS: true,
   separateCSS: true,
   stubModules: ['json'],
-  out: "../dist/personalized-stream-counter.min.js",
+  out: "../dist/growl.min.js",
   pragmasOnSave: {
     excludeRequireCss: true
   },

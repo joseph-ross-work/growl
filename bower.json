@@ -1,6 +1,6 @@
 {
   "name": "personalized-stream-counter",
-  "version": "0.1.1-rework",
+  "version": "0.0.0",
   "main": [
     "./src/main.js"
   ],

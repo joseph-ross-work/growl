@@ -6,10 +6,11 @@ define([
     'use strict';
 
     var stream = null;
-    var streamId = null;
+    var subscription = null;
+    var urn = null;
     var token = null;
 
-    var getStreamId = function(token){
+    var getUrn = function(token){
         var parts = token.split('.');
         var dataPart = parts[1];
         var data = JSON.parse(base64.atob(dataPart));
@@ -22,6 +23,7 @@ define([
     var PersonalizedStreamClient = function(opts) {
         var opts = opts || {};
         this.auth = opts.auth || auth;
+        this.environment = opts.environment;
 
         this.initialize(this.auth.get('livefyre'));
         this.attachListeners();
@@ -29,14 +31,15 @@ define([
 
     PersonalizedStreamClient.prototype.initialize = function(user){
         if(!stream){
-            stream = new StreamClient({ environment: 'production' });
-        }
-
-        if (user && user.get) {
-            token = user.get('token');
-            streamId = getStreamId(token);
-            stream.connect(token, streamId);
+            stream = new StreamClient({ environment: this.environment });
+            if (user && user.get) {
+                token = user.get('token');
+                stream.auth(token);
+            } 
         } 
+
+        urn = getUrn(token);
+        subscription = stream.subscribe(urn);
     };
 
     PersonalizedStreamClient.prototype.attachListeners = function(){
@@ -56,15 +59,8 @@ define([
             }
         });
 
-        stream.on('data', self.onStreamData.bind(self));
-        //window.addEventListener('message', this.onPostMessage.bind(this), false);
+        subscription.on('data', self.onStreamData.bind(self));
     };
-
-    //PersonalizedStreamClient.prototype.onPostMessage = function(event){
-        /*var msg = typeof event.data === "string" ?
-            JSON.parse(event.data) : event.data;*/
-
-    //};
 
     PersonalizedStreamClient.prototype.onStreamData = function(data){
         console.log(data);
@@ -85,7 +81,8 @@ define([
     };
 
     PersonalizedStreamClient.prototype.destroy = function(){
-        //window.removeEventListener('message', this.onPostMessage, false)
+        subscription.close();
+        stream.disconnect();
     };
 
     return PersonalizedStreamClient;

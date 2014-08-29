@@ -1,5 +1,6 @@
 define([
-    'personalized-stream-counter/package-attribute'
+    'growl/package-attribute',
+    'less!../src/css/styles'
 ], function (PackageAttribute) {
     'use strict';
 
@@ -48,7 +49,6 @@ define([
 
         if(msg.channel === 'personalized-stream'){
             if(msg.topic === 'content'){
-                console.log('recieved', msg.data)
                 msgQueue.push(msg.data)
                 this.showMessage();
             }
@@ -75,7 +75,6 @@ define([
 
         if(inInterval || outInterval) return;
         var activity = msgQueue.length > 0 ? msgQueue.shift() : null;
-        console.log('show', activity);
         if(!activity) return;
 
         var text = activity.object.title || ' ';
