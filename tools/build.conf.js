@@ -22,12 +22,6 @@
   cjsTranslate: true,
   optimize: "none",
   preserveLicenseComments: false,
-  uglify2: {
-    compress: {
-      unsafe: true
-    },
-    mangle: true
-  },
   wrap: {
     startFile: 'wrap-start.frag',
     endFile: 'wrap-end.frag'
