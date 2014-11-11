@@ -13,7 +13,7 @@ define([
         '</div>';
 
 
-    var growlButton, growlBox, growlMsg, growlTags;
+    var growlButton, growlBox, growlMsg, growlTags, growlLocation;
     var inDelay, inInterval, inAnimationClass, outDelay, outInterval, outAnimationClass;
     var msgQueue = [];
 
@@ -39,6 +39,7 @@ define([
         growlMsg = this.el.getElementsByClassName('growl-message')[0];
 
         growlButton.onclick = function(event) {
+            event.stopPropagation();
             if (inInterval) { 
                 clearInterval(inInterval);
             }
@@ -50,6 +51,13 @@ define([
 
             growlBox.classList.remove(inAnimationClass);
             growlBox.classList.add(outAnimationClass);
+        };
+
+        growlBox.onclick = function(event) {
+            event.stopPropagation();
+            if (growlLocation) {
+                window.location.href = growlLocation;
+            }
         };
     };
 
@@ -105,6 +113,7 @@ define([
         }
 
         var text = activity.object.title || ' ';
+        growlLocation = activity.target ? activity.target.url : null;
         growlMsg.innerHTML = text;
         growlTags.innerHTML = this.getTagsHtml(activity);
 
@@ -132,6 +141,7 @@ define([
 
     GrowlView.prototype.destroy = function() {
         growlButton.onclick = null;
+        growlBox.onclick = null;
         this._psc.destroy();
         this._psc = null;
         window.removeEventListener('message', this.onPostMessage, false)
