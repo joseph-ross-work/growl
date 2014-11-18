@@ -30,12 +30,14 @@ define([
     };
 
     PersonalizedStreamClient.prototype.initialize = function(user){
-        if(!stream){
-            stream = new StreamClient({ environment: this.environment });
-            if (user && user.get) {
-                token = user.get('token');
-                stream.auth(token);
-            } 
+        if(stream || subscription){
+            return;
+        } 
+
+        stream = new StreamClient({ environment: this.environment });
+        if (user && user.get) {
+            token = user.get('token');
+            stream.auth(token);
         } 
 
         urn = getUrn(token);
@@ -46,25 +48,30 @@ define([
     PersonalizedStreamClient.prototype.attachListeners = function(){
         var self = this;
 
+        //This event seems to get fired multiple times
         this.auth.on('login.livefyre', function(newUser) {
             self.initialize(newUser);
         });
 
         this.auth.on('logout', function() {
-            streamId = null;
-            token = null;
             try{
                 stream.disconnect();
             } catch(e){
 
             }
+
+            stream = null;
+            subscription.off('data');
+            subscription = null;
+            streamId = null;
+            token = null;
         });
     };
 
     PersonalizedStreamClient.prototype.onStreamData = function(rawData){
         var data = rawData.event;
         //Broadcast all new post-type data
-        if(data.published && data.verb === "create"){
+        if(data.published && data.verb === "create") {
             var msg = {
                 channel: 'personalized-stream',
                 topic: 'content',
