@@ -70,8 +70,17 @@ define([
     }
 
     GrowlView.prototype.onPostMessage = function(event) {
-        var msg = typeof event.data === "string" ?
-            JSON.parse(event.data) : event.data;
+        var msg = null; 
+        if (typeof event.data === 'object') {
+            msg = event.data;
+        }
+        else {
+            try{ 
+                msg = JSON.parse(event.data);
+            } catch(e){ 
+                return; 
+            }       
+        }
 
         if (msg.channel === 'personalized-stream' && this._showMessages) {
             if(msg.topic === 'content'){

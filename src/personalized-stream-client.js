@@ -23,7 +23,7 @@ define([
     var PersonalizedStreamClient = function(opts) {
         var opts = opts || {};
         this.auth = opts.auth || auth;
-        this.environment = opts.environment;
+        this.environment = opts.environment ? opts.environment : 'production';
 
         this.initialize(this.auth.get('livefyre'));
         this.attachListeners();
@@ -40,6 +40,7 @@ define([
 
         urn = getUrn(token);
         subscription = stream.subscribe(urn);
+        subscription.on('data', this.onStreamData.bind(this));
     };
 
     PersonalizedStreamClient.prototype.attachListeners = function(){
@@ -58,15 +59,10 @@ define([
 
             }
         });
-
-        subscription.on('data', self.onStreamData.bind(self));
     };
 
-    PersonalizedStreamClient.prototype.onStreamData = function(data){
-        if(typeof data === 'string'){
-            data = JSON.parse(data);
-        }
-
+    PersonalizedStreamClient.prototype.onStreamData = function(rawData){
+        var data = rawData.event;
         //Broadcast all new post-type data
         if(data.published && data.verb === "create"){
             var msg = {
