@@ -17,7 +17,7 @@
     "livefyre-bootstrap": "git@github.com:Livefyre/livefyre-bootstrap.git#v1.3.1",
     "livefyre-auth": "git@github.com:Livefyre/livefyre-auth.git#v0.6.5",
     "auth": "Livefyre/auth#^0.4.0",
-    "stream-client": "git@github.com:Livefyre/stream-client.git",
+    "stream-client": "git@github.com:Livefyre/stream-client.git#b9a25cba334abc50853a277f94cceab3ab13be6c",
     "reqwest": "~1.1.1",
     "mout": "~0.9.1",
     "auth-interface": "Livefyre/auth-interface",

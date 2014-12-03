@@ -25,7 +25,8 @@
                 'growl'
             ],function (growl) {
                 var growl = new growl({
-                    el: document.getElementById('view')
+                    el: document.getElementById('view'),
+                    personalizedStreamClient: null
                 });
 
                 var j = 0;
@@ -38,8 +39,11 @@
                         data: {
                             verb: 'post',
                             'object': {
-                                title: 'test',//j++,
+                                title: "test " + j++,
                                 'tags': [ { "displayName": "spam" } ]
+                            },
+                            target:  {
+                                url: 'http://www.google.com'
                             }
                         }
                     };

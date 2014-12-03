@@ -4,7 +4,7 @@
   "author": {
     "name": "Joseph Ross"
   },
-  "version": "0.0.0",
+  "version": "0.2.0",
   "devDependencies": {
     "bower": "1.3.8",
     "http-server": "*",
